@@ -54,6 +54,10 @@ public class PlayerStateMachine : MonoBehaviour
     public float inventoryTimer;
     public float dashTimer;
 
+    //UI objects
+    public GameObject inventoryObj;
+
+
 
     public Vector3 rotationOffset { get; set; }
 
@@ -102,12 +106,16 @@ public class PlayerStateMachine : MonoBehaviour
     public bool DetectDash()
     {
         //change to get stamina and change stamina from basestats
-        if (Input.GetButton("spacebar") && dashTimer <= 0 && (0 <= baseStats.CurrentStamina - 1))
+        //if (Input.GetButton("spacebar") && dashTimer <= 0 && (0 <= baseStats.CurrentStamina - 1))
+        if (Input.GetButton("spacebar"))
         {
             baseStats.CurrentStamina -= 10;
+            Debug.Log("Dash detected");
             dashTimer = 0.6f;
             //initiates dash
-            Dash();
+
+            currentState = states.Dash();
+            states.Dash().EnterState();
             return true;
         }
         return false;
@@ -177,9 +185,12 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void DetectInventory()
     {
-        if (Input.GetButton("Inventory"))//if inventory button is pressed && timer is < 0
+        if (Input.GetButton("Inventory") && inventoryTimer <= 0)//if inventory button is pressed && timer is < 0
         {
             Debug.Log("Inventory toggle");
+            currentState = states.Inventory();
+            states.Inventory().EnterState();
+            inventoryTimer = 1f;
             //enter play inventory animation and open inventory UI
             //enter inventory state
         }

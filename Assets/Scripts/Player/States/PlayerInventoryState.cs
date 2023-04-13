@@ -8,7 +8,10 @@ public class PlayerInventoryState : PlayerBaseState
     : base(currentContext, playerStateFactory) { }
 
 
-    public override void EnterState() { }
+    public override void EnterState() 
+    {
+        _currentContext.inventoryObj.active = true;
+    }
 
     public override void UpdateState()
     {
@@ -24,12 +27,12 @@ public class PlayerInventoryState : PlayerBaseState
     public override void CheckSwitchState()
     {
         //if player is inputting movement keys, switch to walk state
-        //if (Input.GetButton("Inventory") && _currentContext.InventoryTimer <= 0)
-        //{
-        //    _currentContext.inventoryTimer = _currentContext.InventorySetTime;
-        //    //_currentContext.inventoryToggle(false);
-        //    SwitchState(_factory.Idle());
-        //}
+        if (Input.GetButton("Inventory") && _currentContext.inventoryTimer <= 0)
+        {
+            _currentContext.inventoryObj.active = false;
+            _currentContext.inventoryTimer = 1f;
+            SwitchState(_factory.Idle()) ;
+        }
 
     }
 }

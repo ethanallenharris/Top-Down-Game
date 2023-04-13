@@ -14,6 +14,15 @@ public class PlayerDashState : PlayerBaseState
 
     public override void EnterState()
     {
+        //On enter state get mouse point.
+        //get direction from player to mouse
+        //push player in direction
+        //play dash animation
+        //after dash done, exit state
+
+        Debug.Log("WE in dash state baby");
+
+
         //getDashDirection();
         //_currentContext.Animator.ChangeAnimationState("Roll");
     }

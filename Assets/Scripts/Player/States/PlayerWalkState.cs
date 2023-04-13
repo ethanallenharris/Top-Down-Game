@@ -4,9 +4,22 @@ public class PlayerWalkState : PlayerBaseState
     public PlayerWalkState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
         : base(currentContext, playerStateFactory) { }
 
+    private float largestAxis = 0f;
+
+    private Vector3 initialScale;
+
+    private float scaleFactor;
+
+
     public override void EnterState() 
     {
-        
+        initialScale = _currentContext.player.transform.localScale;
+
+        // Reset the child's scale to uniform based on the largest axis of the initial scale
+        largestAxis = Mathf.Max(initialScale.x, initialScale.y, initialScale.z);
+
+        // Adjust the other two axes to maintain the original proportions of the character
+        scaleFactor = largestAxis / Mathf.Max(initialScale.x, initialScale.y, initialScale.z);
     }
 
     public override void UpdateState() {
@@ -28,7 +41,6 @@ public class PlayerWalkState : PlayerBaseState
         if (InputVector.y == 0 && InputVector.x == 0)
         {
             _currentContext.animator.PlayAnimation("Idle");
-            Debug.Log("IDLE");
             _currentContext.player.transform.rotation = _currentContext.playerEmpty.transform.rotation;
         }
                
@@ -45,6 +57,7 @@ public class PlayerWalkState : PlayerBaseState
         {
             _currentContext.animator.PlayAnimation("RunForward");
             _currentContext.player.transform.rotation = _currentContext.playerEmpty.transform.rotation;
+            _currentContext.player.transform.localScale = new Vector3(initialScale.x * scaleFactor, initialScale.y * scaleFactor, initialScale.z * scaleFactor);
             _currentContext.player.transform.Rotate(0f, -45f, 0f);
         }
 
@@ -53,6 +66,7 @@ public class PlayerWalkState : PlayerBaseState
         {
             _currentContext.animator.PlayAnimation("RunForward");
             _currentContext.player.transform.rotation = _currentContext.playerEmpty.transform.rotation;
+            _currentContext.player.transform.localScale = new Vector3(initialScale.x * scaleFactor, initialScale.y * scaleFactor, initialScale.z * scaleFactor);
             _currentContext.player.transform.Rotate(0f, 45f, 0f);
         }
 
@@ -84,6 +98,7 @@ public class PlayerWalkState : PlayerBaseState
         {
             _currentContext.animator.PlayAnimation("RunBack");
             _currentContext.player.transform.rotation = _currentContext.playerEmpty.transform.rotation;
+            _currentContext.player.transform.localScale = new Vector3(initialScale.x * scaleFactor, initialScale.y * scaleFactor, initialScale.z * scaleFactor);
             _currentContext.player.transform.Rotate(0f, 45f, 0f);
         }
 
@@ -92,6 +107,7 @@ public class PlayerWalkState : PlayerBaseState
         {
             _currentContext.animator.PlayAnimation("RunBack");
             _currentContext.player.transform.rotation = _currentContext.playerEmpty.transform.rotation;
+            _currentContext.player.transform.localScale = new Vector3(initialScale.x * scaleFactor, initialScale.y * scaleFactor, initialScale.z * scaleFactor);
             _currentContext.player.transform.Rotate(0f, -45f, 0f);
         }
 
