@@ -24,8 +24,9 @@ public class PlayerRunState : PlayerBaseState
     public override void EnterState() 
     {
         CoroutineRunner.Instance.StartCoroutine(IncreaseSpeedCoroutine());
-        //_currentContext.animator.GetAnimator().SetFloat("RunMult", 0f);
-        _currentContext.animator.PlayAnimation("Sprinting");
+        Debug.Log("Entering run");
+        _currentContext.animator.GetAnimator().SetFloat("RunMult", 0);
+        _currentContext.animator.PlayAnimation("RunForward");
     }
 
     public override void UpdateState()
@@ -51,7 +52,7 @@ public class PlayerRunState : PlayerBaseState
         float playerSpeed = _currentContext.playerMovespeed * _currentContext.currentSpeedMultiplier;
 
         // move player forward by playerSpeed
-        _currentContext.playerEmpty.transform.Translate((new Vector3(0, 0, 1) * playerSpeed));
+        _currentContext.playerEmpty.transform.Translate(new Vector3(0, 0, 1) * playerSpeed);
 
     }
 
@@ -63,9 +64,11 @@ public class PlayerRunState : PlayerBaseState
     public override void CheckSwitchState()
     {
         //if player is no longer moving forward or holding shift
-        if (_currentContext.input.InputVector.y < 1 || !Input.GetKey("left shift"))
+        if (_currentContext.input.InputVector.y < 1 | !Input.GetKey("left shift"))
         {
-            _currentContext.animator.PlayAnimation("RunForward");
+            Debug.Log("Stopped running");
+            _currentContext.currentSpeedMultiplier = 1;
+            _currentContext.animator.GetAnimator().SetFloat("RunMult", 0);
             SwitchState(_factory.Walk());
         }
     }

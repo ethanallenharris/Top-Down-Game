@@ -20,9 +20,8 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     public void ExitRoll()
     {
-        if (playerStateMachine.currentSpeedMultiplier > 1)
+        if (playerStateMachine.currentSpeedMultiplier >= 1 && Input.GetKey("left shift"))
         {
-            playerStateMachine.animator.GetAnimator().SetFloat("RunMult", 0f);
             playerStateMachine.EnterRun();
         } else
         {

@@ -127,9 +127,10 @@ public class PlayerWalkState : PlayerBaseState
         if (_currentContext.input.InputVector.y == 0 && _currentContext.input.InputVector.x == 0)
         {
             SwitchState(_factory.Idle());
+            _currentContext.currentState.EnterState();
         }
 
-        if (_currentContext.input.InputVector.y > 0 && _currentContext.input.InputVector.x == 0 && Input.GetKey("left shift"))
+        if (_currentContext.input.InputVector.y == 1 && _currentContext.input.InputVector.x == 0 && Input.GetKey("left shift"))
         {
             SwitchState(_factory.Run());
         }

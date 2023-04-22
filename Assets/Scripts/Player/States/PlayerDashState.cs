@@ -34,7 +34,7 @@ public class PlayerDashState : PlayerBaseState
         //_currentContext.playerDashMovement();
         //dashDuration -= Time.deltaTime;
 
-        _currentContext.playerEmpty.transform.Translate(new Vector3(0, 0, 1) * 0.01f);
+        _currentContext.playerEmpty.transform.Translate(new Vector3(0, 0, 1) * 0.015f);
     }
 
     public override void ExitState() { }

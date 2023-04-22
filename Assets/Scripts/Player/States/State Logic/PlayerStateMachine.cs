@@ -44,7 +44,7 @@ public class PlayerStateMachine : MonoBehaviour
     //player Stats
     public float playerMovespeed;
     [HideInInspector]
-    public float currentSpeedMultiplier; // the current multiplier for player movement speed when running
+    public float currentSpeedMultiplier = 1; // the current multiplier for player movement speed when running
 
 
     //States
