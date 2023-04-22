@@ -43,6 +43,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     //player Stats
     public float playerMovespeed;
+    [HideInInspector]
+    public float currentSpeedMultiplier; // the current multiplier for player movement speed when running
 
 
     //States
@@ -51,15 +53,13 @@ public class PlayerStateMachine : MonoBehaviour
     private string playerCurrentState;
 
     //Timers
+    [HideInInspector]
     public float inventoryTimer;
+    [HideInInspector]
     public float dashTimer;
 
     //UI objects
     public GameObject inventoryObj;
-
-
-
-    public Vector3 rotationOffset { get; set; }
 
 
     #endregion
@@ -87,7 +87,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     }
 
-    #region active
+    #region actives
     public void Dash()
     {
         //logic to make player dash
@@ -124,7 +124,7 @@ public class PlayerStateMachine : MonoBehaviour
     public void Movement()
     {
         //moves player according to players inputs
-        playerEmpty.transform.Translate(rotationOffset + (new Vector3(input.InputVector.x, 0, input.InputVector.y) * playerMovespeed));
+        playerEmpty.transform.Translate(new Vector3(input.InputVector.x, 0, input.InputVector.y) * playerMovespeed);
     }
 
     public bool DetectSpellCast()
@@ -204,7 +204,132 @@ public class PlayerStateMachine : MonoBehaviour
         camera.transform.position = playerEmpty.transform.position + new Vector3(CameraX, CameraY, CameraZ);
     }
 
+
+    public float doubleTapTime = 0.2f; // The maximum amount of time between taps to register as a double tap
+    private float lastTapTimeW, lastTapTimeA, lastTapTimeS, lastTapTimeD;
+
+    public void StepDetect() { 
+            // Check for double taps on W, A, S, or D
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (Time.time - lastTapTimeW <= doubleTapTime)
+            {
+                OnDoubleTapW();            
+            }
+        lastTapTimeW = Time.time;
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (Time.time - lastTapTimeA <= doubleTapTime)
+            {
+                OnDoubleTapA();
+            }
+            lastTapTimeA = Time.time;
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            if (Time.time - lastTapTimeS <= doubleTapTime)
+            {
+                OnDoubleTapS();
+            }
+            lastTapTimeS = Time.time;
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (Time.time - lastTapTimeD <= doubleTapTime)
+            {
+                OnDoubleTapD();
+            }
+            lastTapTimeD = Time.time;
+        }
+    }
+
+    void OnDoubleTapW()
+    {
+        animator.PlayAnimation("StepForward");
+    }
+
+    void OnDoubleTapA()
+    {
+        animator.PlayAnimation("StepLeft");
+    }
+
+    void OnDoubleTapS()
+    {
+        animator.PlayAnimation("StepBack");
+    }
+
+    void OnDoubleTapD()
+    {
+        animator.PlayAnimation("StepRight");
+    }
+    
+
+#endregion
+
+#region Other
+
+    public void EnterIdle()
+    {
+        currentState = states.Idle();
+        states.Idle().EnterState();
+    }
+
+    public void EnterStep(string direction)
+    {
+        currentState = states.Step();
+        states.Step().EnterState();
+
+        switch (direction)
+        {
+            case "forward":
+                StepVelocity(Vector3.forward);
+                break;
+            case "left":
+                StepVelocity(Vector3.left);
+                break;
+            case "right":
+                StepVelocity(Vector3.right);
+                break;
+            case "back":
+                StepVelocity(Vector3.back);
+                break;
+            default:
+                Debug.Log("Invalid step direction");
+                break;
+        }
+    }
+
+    public void EnterRun()
+    {
+        currentState = states.Run();
+        states.Run().EnterState();
+    }
+
+    private float stepSpeed = 10f;
+    public void StepVelocity(Vector3 direction)
+    {
+        // Launch player in the specified direction
+        StartCoroutine(MovePlayer(direction));
+    }
+
+    private IEnumerator MovePlayer(Vector3 direction)
+    {
+        float distance = 0f;
+        while (distance < 1f && currentState is PlayerStepState)
+        {
+            float step = stepSpeed * Time.deltaTime;
+            playerEmpty.transform.Translate(direction * step);
+            distance += step;
+            yield return null;
+        }
+        EnterIdle();
+    }
+
     #endregion
+
+
+
 
 
     //LEFT OFF ON PLAYER IDLE STATE
@@ -285,7 +410,5 @@ public class PlayerStateMachine : MonoBehaviour
     //{
     //    playerAbilities.inAttack = false;
     //}
-
-
 
 }

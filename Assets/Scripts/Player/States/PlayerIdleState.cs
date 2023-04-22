@@ -10,7 +10,7 @@ public class PlayerIdleState : PlayerBaseState
 
 
     public override void EnterState() {
-
+        _currentContext.currentSpeedMultiplier = 1;
     }
 
     public override void UpdateState() {
@@ -20,6 +20,7 @@ public class PlayerIdleState : PlayerBaseState
         _currentContext.DetectAttack();
         _currentContext.DetectSpellCast();
         _currentContext.DetectInventory();
+        _currentContext.StepDetect();
         _currentContext.animator.PlayAnimation("Idle");
     }
 

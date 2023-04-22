@@ -29,6 +29,7 @@ public class PlayerWalkState : PlayerBaseState
         _currentContext.DetectAttack();
         _currentContext.DetectDash();
         _currentContext.DetectSpellCast();
+        _currentContext.StepDetect();
 
         _currentContext.animator.GetAnimator().SetFloat("RunMult", 0f);
 

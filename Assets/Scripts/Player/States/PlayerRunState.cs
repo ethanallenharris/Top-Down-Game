@@ -8,22 +8,24 @@ public class PlayerRunState : PlayerBaseState
 
 
     public float speedMultiplier = 3.0f; // the maximum multiplier for player movement speed
-    private float currentMultiplier = 1.0f; // the current multiplier for player movement speed
+    
 
     private IEnumerator IncreaseSpeedCoroutine()
     {
-        while (currentMultiplier < speedMultiplier)
+        while (_currentContext.currentSpeedMultiplier < speedMultiplier)
         {
-            currentMultiplier += Time.deltaTime;
+            _currentContext.currentSpeedMultiplier += Time.deltaTime;
             yield return null;
         }
-        currentMultiplier = speedMultiplier;
+        _currentContext.currentSpeedMultiplier = speedMultiplier;
     }
 
 
     public override void EnterState() 
     {
         CoroutineRunner.Instance.StartCoroutine(IncreaseSpeedCoroutine());
+        //_currentContext.animator.GetAnimator().SetFloat("RunMult", 0f);
+        _currentContext.animator.PlayAnimation("Sprinting");
     }
 
     public override void UpdateState()
@@ -33,6 +35,7 @@ public class PlayerRunState : PlayerBaseState
         _currentContext.DetectAttack();
         _currentContext.DetectDash();
         _currentContext.DetectSpellCast();
+        _currentContext.StepDetect();
 
 
         Vector2 InputVector = _currentContext.input.InputVector;
@@ -40,12 +43,12 @@ public class PlayerRunState : PlayerBaseState
         Quaternion playerRotation = _currentContext.player.transform.rotation;
 
         // get float for run to sprint
-        float RunMultFloat = (currentMultiplier - 1) / 2f;
+        float RunMultFloat = (_currentContext.currentSpeedMultiplier - 1) / 2f;
         // change animator float value
         _currentContext.animator.GetAnimator().SetFloat("RunMult", RunMultFloat);
 
         // use the current multiplier to modify the player's movement speed
-        float playerSpeed = _currentContext.playerMovespeed * currentMultiplier;
+        float playerSpeed = _currentContext.playerMovespeed * _currentContext.currentSpeedMultiplier;
 
         // move player forward by playerSpeed
         _currentContext.playerEmpty.transform.Translate((new Vector3(0, 0, 1) * playerSpeed));
@@ -62,6 +65,7 @@ public class PlayerRunState : PlayerBaseState
         //if player is no longer moving forward or holding shift
         if (_currentContext.input.InputVector.y < 1 || !Input.GetKey("left shift"))
         {
+            _currentContext.animator.PlayAnimation("RunForward");
             SwitchState(_factory.Walk());
         }
     }

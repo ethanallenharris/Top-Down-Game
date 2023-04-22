@@ -31,5 +31,9 @@ public class PlayerStateFactory
         return new PlayerRunState(_context, this);
     }
 
+    public PlayerStepState Step()
+    {
+        return new PlayerStepState(_context, this);
+    }
 
 }

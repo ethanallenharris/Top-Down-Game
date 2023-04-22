@@ -24,7 +24,7 @@ public class PlayerDashState : PlayerBaseState
 
 
         //getDashDirection();
-        //_currentContext.Animator.ChangeAnimationState("Roll");
+        _currentContext.animator.PlayAnimation("Roll");
     }
 
 
@@ -33,6 +33,8 @@ public class PlayerDashState : PlayerBaseState
         //CheckSwitchState();
         //_currentContext.playerDashMovement();
         //dashDuration -= Time.deltaTime;
+
+        _currentContext.playerEmpty.transform.Translate(new Vector3(0, 0, 1) * 0.01f);
     }
 
     public override void ExitState() { }
