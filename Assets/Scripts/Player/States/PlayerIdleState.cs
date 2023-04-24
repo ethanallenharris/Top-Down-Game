@@ -11,6 +11,7 @@ public class PlayerIdleState : PlayerBaseState
 
     public override void EnterState() {
         _currentContext.currentSpeedMultiplier = 1;
+        _currentContext.PlayerStats.SetStaminaDrain(0);
     }
 
     public override void UpdateState() {
@@ -22,6 +23,7 @@ public class PlayerIdleState : PlayerBaseState
         _currentContext.DetectInventory();
         _currentContext.StepDetect();
         _currentContext.animator.PlayAnimation("Idle");
+        _currentContext.currentSpeedMultiplier = 1;
     }
 
     public override void ExitState() { }

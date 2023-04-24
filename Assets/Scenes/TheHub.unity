@@ -918,15 +918,17 @@ MonoBehaviour:
   playerEmpty: {fileID: 169150094}
   player: {fileID: 672102347}
   animator: {fileID: 672102351}
-  baseStats: {fileID: 672102349}
+  PlayerStats: {fileID: 672102349}
   input: {fileID: 672102350}
-  playerMovespeed: 0.003
+  playerMovespeed: 0.0045
+  currentSpeedMultiplier: 1
   inventoryTimer: 0
   dashTimer: 0
   inventoryObj: {fileID: 1551388143}
   CameraX: 0
-  CameraY: 10
-  CameraZ: -1.44
+  CameraY: 12
+  CameraZ: -2
+  doubleTapTime: 0.2
 --- !u!65 &169150096
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3384,6 +3386,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: -158201263965325963, guid: 15f0ec96b1c824f4a833da1fcc69fe9f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5bb0836c822f1034aaeeef74123f08e8, type: 2}
     - target: {fileID: 9171100556185337, guid: 15f0ec96b1c824f4a833da1fcc69fe9f, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -3695,14 +3701,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43eedd92dc37faa4293762e2cf6f6078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHealth: 100
+  baseMaxHealth: 100
   baseHealthRegen: 1
   baseAttack: 10
   baseDefense: 0
-  baseMana: 100
-  baseManaRegen: 1
-  baseManaPower: 10
-  baseStamina: 100
+  baseMaxMana: 100
+  baseManaAffinity: 1
+  baseManaRegen: 0.1
+  baseMaxStamina: 100
   baseStaminaRegen: 1
   baseInvincibilityTime: 0.3
   alive: 1
@@ -3924,6 +3930,7 @@ GameObject:
   - component: {fileID: 686487329}
   - component: {fileID: 686487328}
   - component: {fileID: 686487327}
+  - component: {fileID: 686487330}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3965,7 +3972,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -3996,6 +4003,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 80, y: 0, z: 0}
+--- !u!114 &686487330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686487326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: add9183f36218484c89b9d54c5591ad5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectMaterial: {fileID: 2100000, guid: a7a56b9204977834ba33f1cb911fd93e, type: 2}
 --- !u!1 &716104726
 GameObject:
   m_ObjectHideFlags: 0
@@ -9655,6 +9675,7 @@ GameObject:
   - component: {fileID: 1921039302}
   - component: {fileID: 1921039301}
   - component: {fileID: 1921039300}
+  - component: {fileID: 1921039303}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -9749,6 +9770,22 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1921039303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921039298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b6eb557b9cbd334396bb5da90a56375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStats: {fileID: 672102349}
+  healthBar: {fileID: 716104728}
+  manaBar: {fileID: 1596200561}
+  staminaBar: {fileID: 833824020}
 --- !u!1001 &1931293357
 PrefabInstance:
   m_ObjectHideFlags: 0

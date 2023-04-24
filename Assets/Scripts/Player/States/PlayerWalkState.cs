@@ -31,6 +31,8 @@ public class PlayerWalkState : PlayerBaseState
         _currentContext.DetectSpellCast();
         _currentContext.StepDetect();
 
+        _currentContext.PlayerStats.SetStaminaDrain(0);
+
         _currentContext.animator.GetAnimator().SetFloat("RunMult", 0f);
 
         Vector2 InputVector = _currentContext.input.InputVector;
@@ -133,6 +135,7 @@ public class PlayerWalkState : PlayerBaseState
         if (_currentContext.input.InputVector.y == 1 && _currentContext.input.InputVector.x == 0 && Input.GetKey("left shift"))
         {
             SwitchState(_factory.Run());
+            _currentContext.currentState.EnterState();
         }
     }
 }

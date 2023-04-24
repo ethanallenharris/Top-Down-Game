@@ -8,7 +8,6 @@ public class PlayerRunState : PlayerBaseState
 
 
     public float speedMultiplier = 3.0f; // the maximum multiplier for player movement speed
-    
 
     private IEnumerator IncreaseSpeedCoroutine()
     {
@@ -38,13 +37,28 @@ public class PlayerRunState : PlayerBaseState
         _currentContext.DetectSpellCast();
         _currentContext.StepDetect();
 
-
         Vector2 InputVector = _currentContext.input.InputVector;
 
         Quaternion playerRotation = _currentContext.player.transform.rotation;
 
-        // get float for run to sprint
+        // After starting to run begin to drain stamina
+        //If player over exerts bring down speed mult
+        if (_currentContext.currentSpeedMultiplier >= 2)
+        {
+            //If player cant sustain running, cap speed mult at 1.5x and drain stamina
+            _currentContext.PlayerStats.SetStaminaDrain(5);
+            if (_currentContext.PlayerStats.CurrentStaminaLevel <= _currentContext.PlayerStats.CurrentMaxStamina / 10) // If player is exhausted cap player speed
+            {
+                _currentContext.currentSpeedMultiplier = 2.1f;
+                _currentContext.PlayerStats.SetStaminaDrain(1.5f);
+            } 
+        } else
+        {
+            _currentContext.PlayerStats.SetStaminaDrain(1.5f);
+        }
+
         float RunMultFloat = (_currentContext.currentSpeedMultiplier - 1) / 2f;
+
         // change animator float value
         _currentContext.animator.GetAnimator().SetFloat("RunMult", RunMultFloat);
 
@@ -68,6 +82,7 @@ public class PlayerRunState : PlayerBaseState
         {
             Debug.Log("Stopped running");
             _currentContext.currentSpeedMultiplier = 1;
+            _currentContext.PlayerStats.SetStaminaDrain(0);
             _currentContext.animator.GetAnimator().SetFloat("RunMult", 0);
             SwitchState(_factory.Walk());
         }

@@ -25,7 +25,7 @@ public class PlayerStateMachine : MonoBehaviour
     public AnimatorScript animator;
 
     //Player Scripts
-    public BaseStats baseStats;
+    public Entity PlayerStats;
     public InputHandler input;
 
     //going to need:
@@ -61,7 +61,6 @@ public class PlayerStateMachine : MonoBehaviour
     //UI objects
     public GameObject inventoryObj;
 
-
     #endregion
 
     //intitiates player state machine
@@ -70,6 +69,7 @@ public class PlayerStateMachine : MonoBehaviour
         states = new PlayerStateFactory(this);
         currentState = states.Idle();
         currentState.EnterState();
+        PlayerStats.alive = true;
     }
 
     void Update()
@@ -107,9 +107,8 @@ public class PlayerStateMachine : MonoBehaviour
     {
         //change to get stamina and change stamina from basestats
         //if (Input.GetButton("spacebar") && dashTimer <= 0 && (0 <= baseStats.CurrentStamina - 1))
-        if (Input.GetButton("spacebar"))
+        if (Input.GetButton("spacebar") && PlayerStats.StaminaLose(10))
         {
-            baseStats.CurrentStamina -= 10;
             Debug.Log("Dash detected");
             dashTimer = 0.6f;
             //initiates dash
@@ -209,20 +208,23 @@ public class PlayerStateMachine : MonoBehaviour
     private float lastTapTimeW, lastTapTimeA, lastTapTimeS, lastTapTimeD;
 
     public void StepDetect() { 
-            // Check for double taps on W, A, S, or D
+
+        
+        // Check for double taps on W, A, S, or D and if Player has enough stamina
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (Time.time - lastTapTimeW <= doubleTapTime)
             {
-                OnDoubleTapW();            
+                if (!PlayerStats.StaminaLose(5)){ return; } else { OnDoubleTapW(); }
+
             }
-        lastTapTimeW = Time.time;
+            lastTapTimeW = Time.time;
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
             if (Time.time - lastTapTimeA <= doubleTapTime)
             {
-                OnDoubleTapA();
+                if (!PlayerStats.StaminaLose(5)) { return; } else { OnDoubleTapA(); }
             }
             lastTapTimeA = Time.time;
         }
@@ -230,7 +232,7 @@ public class PlayerStateMachine : MonoBehaviour
         {
             if (Time.time - lastTapTimeS <= doubleTapTime)
             {
-                OnDoubleTapS();
+                if (!PlayerStats.StaminaLose(5)) { return; } else { OnDoubleTapS(); }
             }
             lastTapTimeS = Time.time;
         }
@@ -238,31 +240,18 @@ public class PlayerStateMachine : MonoBehaviour
         {
             if (Time.time - lastTapTimeD <= doubleTapTime)
             {
-                OnDoubleTapD();
+                if (!PlayerStats.StaminaLose(5)) { return; } else { OnDoubleTapD(); }
             }
             lastTapTimeD = Time.time;
         }
     }
 
-    void OnDoubleTapW()
-    {
-        animator.PlayAnimation("StepForward");
-    }
+    void OnDoubleTapW() { animator.PlayAnimation("StepForward"); }
+    void OnDoubleTapA() { animator.PlayAnimation("StepLeft"); }
+    void OnDoubleTapS() { animator.PlayAnimation("StepBack"); }
+    void OnDoubleTapD() { animator.PlayAnimation("StepRight"); }
 
-    void OnDoubleTapA()
-    {
-        animator.PlayAnimation("StepLeft");
-    }
 
-    void OnDoubleTapS()
-    {
-        animator.PlayAnimation("StepBack");
-    }
-
-    void OnDoubleTapD()
-    {
-        animator.PlayAnimation("StepRight");
-    }
     
 
 #endregion
@@ -306,7 +295,7 @@ public class PlayerStateMachine : MonoBehaviour
         states.Run().EnterState();
     }
 
-    private float stepSpeed = 10f;
+    private float stepSpeed = 30f;
     public void StepVelocity(Vector3 direction)
     {
         // Launch player in the specified direction

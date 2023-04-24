@@ -20,11 +20,11 @@ public class PlayerDashState : PlayerBaseState
         //play dash animation
         //after dash done, exit state
 
-        Debug.Log("WE in dash state baby");
 
 
         //getDashDirection();
-        _currentContext.animator.PlayAnimation("Roll");
+        _currentContext.PlayerStats.SetStaminaDrain(0);
+        _currentContext.animator.PlayAnimation("Idle");
     }
 
 
@@ -33,8 +33,11 @@ public class PlayerDashState : PlayerBaseState
         //CheckSwitchState();
         //_currentContext.playerDashMovement();
         //dashDuration -= Time.deltaTime;
+        _currentContext.animator.PlayAnimation("Roll");
 
-        _currentContext.playerEmpty.transform.Translate(new Vector3(0, 0, 1) * 0.015f);
+        _currentContext.player.transform.rotation = _currentContext.playerEmpty.transform.rotation;
+
+        _currentContext.playerEmpty.transform.Translate(new Vector3(0, 0, 1) * 0.014f);
     }
 
     public override void ExitState() { }

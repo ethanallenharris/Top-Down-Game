@@ -8,6 +8,8 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     //Get player state machine
     public PlayerStateMachine playerStateMachine;
 
+    PlayerStateFactory states;
+
     public void EnterIdle()
     {
         playerStateMachine.EnterIdle();
@@ -20,11 +22,12 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     public void ExitRoll()
     {
-        if (playerStateMachine.currentSpeedMultiplier >= 1 && Input.GetKey("left shift"))
+        if (playerStateMachine.currentSpeedMultiplier > 1 && Input.GetKey("left shift"))
         {
             playerStateMachine.EnterRun();
         } else
         {
+            Debug.Log("Exit into idle");
             playerStateMachine.EnterIdle();
         }
     }
