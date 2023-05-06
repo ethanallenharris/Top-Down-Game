@@ -55,8 +55,12 @@ Shader "Hidden/Pixelation "
                 fixed4 col = tex2D(_MainTex, coord);
                 col.rgb = round(col.rgb * 10) / 10; // round color values to 0, 0.5, 0.75, or 1
                 col.a = 1; // set alpha value to 1
+
+                // rest of the function code goes here
+
                 return col;
             }
+
             ENDCG
         }
     }

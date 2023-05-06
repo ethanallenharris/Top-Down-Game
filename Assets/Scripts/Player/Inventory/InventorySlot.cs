@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
-    private PlayerAbilities playerAbilities;
+    private PlayerStateMachine playerStateMachine;
 
     public Text itemCount;
     public Image icon;
@@ -20,7 +20,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     void Start()
     {
         icon.enabled = false;
-        playerAbilities = FindObjectOfType<PlayerAbilities>();
+        playerStateMachine = FindObjectOfType<PlayerStateMachine>();
     }
 
     public enum SlotType
@@ -62,8 +62,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         if (isEquipment)
         {
-            playerAbilities.applyEquipmentBuffs();
-            playerAbilities.EquipWeapon();
+            //playerStateMachine.applyEquipmentBuffs();
+            //playerStateMachine.EquipWeapon();
         }
 
   
@@ -136,8 +136,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 if (targetSlot.isEquipment)
                 {
                     Debug.Log("Update stats");
-                    playerAbilities.applyEquipmentBuffs();
-                    playerAbilities.EquipWeapon();
+                    //playerStateMachine.applyEquipmentBuffs();
+                    //playerStateMachine.EquipWeapon();
                     //update stats, passives and weapon
                 }
             }

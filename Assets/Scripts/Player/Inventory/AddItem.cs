@@ -13,6 +13,7 @@ public class AddItem : MonoBehaviour
 
     public void OnHandlePickupItem()
     {
+        Debug.Log("Add item");
         counter++;
         inventorySystem = FindObjectOfType<InventorySystem>();
        

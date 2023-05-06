@@ -16,7 +16,6 @@ public class EnemyAI : MonoBehaviour
     {
         player = GameObject.Find("Player");
         //Health = FindObjectOfType<EnemySpawner>().getEnemyHealth();
-
     }
 
 

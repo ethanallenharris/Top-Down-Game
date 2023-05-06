@@ -23,10 +23,15 @@ public class PlayerStateMachine : MonoBehaviour
     public GameObject playerEmpty;
     public GameObject player;
     public AnimatorScript animator;
+    public PlayerParticles playerParticles;
+    public GameObject rightHand;
+    public GameObject leftHand;
+
 
     //Player Scripts
     public Entity PlayerStats;
     public InputHandler input;
+    public PlayerInventory PlayerInventory;
 
     //going to need:
     //player (will have command for default for player stats after buffs/debuffs)
@@ -60,6 +65,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     //UI objects
     public GameObject inventoryObj;
+
 
     #endregion
 
@@ -176,7 +182,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            PlayerAttack();
+            EnterAttack();
         }
         return Input.GetMouseButtonDown(0);
     }
@@ -252,11 +258,18 @@ public class PlayerStateMachine : MonoBehaviour
     void OnDoubleTapD() { animator.PlayAnimation("StepRight"); }
 
 
+    public void EnterAttack()
+    {
+
+        return;
+    }
+
+
     
 
 #endregion
 
-#region Other
+    #region Other
 
     public void EnterIdle()
     {
@@ -268,11 +281,13 @@ public class PlayerStateMachine : MonoBehaviour
     {
         currentState = states.Step();
         states.Step().EnterState();
+        playerParticles.dashParticle.SetActive(true);
 
         switch (direction)
         {
             case "forward":
-                StepVelocity(Vector3.forward);
+                //rotate particle emitter correct way
+                StepVelocity(Vector3.forward);         
                 break;
             case "left":
                 StepVelocity(Vector3.left);
@@ -312,12 +327,17 @@ public class PlayerStateMachine : MonoBehaviour
             distance += step;
             yield return null;
         }
+        playerParticles.dashParticle.SetActive(false);
         EnterIdle();
     }
 
     #endregion
 
+    #region Inventory
 
+
+
+    #endregion
 
 
 

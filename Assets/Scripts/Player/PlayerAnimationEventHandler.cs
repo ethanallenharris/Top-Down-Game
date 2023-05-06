@@ -27,10 +27,8 @@ public class PlayerAnimationEventHandler : MonoBehaviour
             playerStateMachine.EnterRun();
         } else
         {
-            Debug.Log("Exit into idle");
             playerStateMachine.EnterIdle();
         }
     }
-
 
 }

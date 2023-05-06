@@ -59,6 +59,7 @@ public class InventorySystem : MonoBehaviour
 
     public void Add(ItemObject pItem)
     {
+        Debug.Log("Add item2");
         int slotNumber = GetFreeSlot();
         Debug.Log(slotNumber);
         if (slotNumber < 999)
