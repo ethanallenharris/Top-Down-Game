@@ -210,7 +210,7 @@ public class PlayerStateMachine : MonoBehaviour
     }
 
 
-    public float doubleTapTime = 0.2f; // The maximum amount of time between taps to register as a double tap
+    private float doubleTapTime = 0.2f; // The maximum amount of time between taps to register as a double tap
     private float lastTapTimeW, lastTapTimeA, lastTapTimeS, lastTapTimeD;
 
     public void StepDetect() { 
@@ -335,89 +335,150 @@ public class PlayerStateMachine : MonoBehaviour
 
     #region Inventory
 
+    public void EquipInHand(GameObject obj, string hand)
+    {
+        // Define which hand to use
+        GameObject targetHand;
+        if (hand == "right")
+        {
+            targetHand = rightHand;
+        }
+        else if (hand == "left")
+        {
+            targetHand = leftHand;
+        }
+        else
+        {
+            Debug.LogError("Invalid hand specified. Must be 'right' or 'left'.");
+            return;
+        }
+
+        // Destroy any existing children
+        foreach (Transform child in targetHand.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Instantiate new object as child of the hand
+        GameObject newObj = Instantiate(obj, targetHand.transform);
+
+        // Make sure the new object is correctly positioned relative to the hand
+        newObj.transform.localPosition = Vector3.zero;
+        newObj.transform.localRotation = Quaternion.identity;
+
+    }
 
 
-    #endregion
+    public void ClearHand(string hand)
+    {
+        // Define which hand to use
+        GameObject targetHand;
+        if (hand == "right")
+        {
+            targetHand = rightHand;
+        }
+        else if (hand == "left")
+        {
+            targetHand = leftHand;
+        }
+        else
+        {
+            Debug.LogError("Invalid hand specified. Must be 'right' or 'left'.");
+            return;
+        }
+
+        // Destroy any existing children
+        foreach (Transform child in targetHand.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
 
 
 
-    //LEFT OFF ON PLAYER IDLE STATE
+
+
+        #endregion
+
+
+
+        //LEFT OFF ON PLAYER IDLE STATE
 
 
 
 
-    //public void executeSpell(int spellSlot)
-    //{
-    //    if (Input.GetMouseButtonDown(0)) playerAbilities.castSpell();
-    //}
+        //public void executeSpell(int spellSlot)
+        //{
+        //    if (Input.GetMouseButtonDown(0)) playerAbilities.castSpell();
+        //}
 
-    //public bool detectDash()
-    //{
-    //    if (Input.GetButton("spacebar") && playerDashCooldown <= 0 && (0 <= playerAbilities.currentStamina - 1))
-    //    {
-    //        playerAbilities.currentStamina -= 1;
-    //        playerDashCooldown = playerDashTime;
-    //        return true;
-    //    }
-    //    return false;
-    //}
-
-
-    //public void executeMovement()
-    //{
-    //    _player.transform.Translate(new Vector3(_input.InputVector.x, 0, _input.InputVector.y) * playerAbilities.newSpeed);
-    //    //, Space.World
-    //}
-
-    //public void rotateCharacter()
-    //{
-    //    Ray cameraRay = _camera.ScreenPointToRay(_input.Mouseposition);
-    //    Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-    //    float rayLength;
-
-    //    if (groundPlane.Raycast(cameraRay, out rayLength))
-    //    {
-    //        Vector3 pointToLook = cameraRay.GetPoint(rayLength);
-    //        Debug.DrawLine(cameraRay.origin, pointToLook, Color.blue);
-    //        _player.transform.LookAt(new Vector3(pointToLook.x, _player.transform.position.y, pointToLook.z));
-    //    }
-    //}
-
-    //public void inventoryToggle(bool inventory)
-    //{
-    //    //true = enter
-    //    //false = close
-    //    if (inventory)
-    //    {
-    //        _gameManager.changeMenuState("openBook inventory");
-    //        inventoryTimer = inventoryToggleTime;
-    //    } else {
-    //        _gameManager.changeMenuState("closeBook");
-    //        inventoryTimer = inventoryToggleTime;
-    //    }
-
-    //}
-
-    //public void playerAttack()
-    //{
-    //    if (Input.GetMouseButtonDown(0)) playerAbilities.startAttack();
-    //}
-
-    //public void playerDashMovement()
-    //{
-    //    var speed = playerAbilities.newSpeed * 1.5f;
-    //    _player.transform.Translate(new Vector3(_input.InputVector.x, 0, _input.InputVector.y) * speed);
-    //}
+        //public bool detectDash()
+        //{
+        //    if (Input.GetButton("spacebar") && playerDashCooldown <= 0 && (0 <= playerAbilities.currentStamina - 1))
+        //    {
+        //        playerAbilities.currentStamina -= 1;
+        //        playerDashCooldown = playerDashTime;
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
 
-    //public void enableAttacks()
-    //{
-    //    playerAbilities.inAttack = true;
-    //}
+        //public void executeMovement()
+        //{
+        //    _player.transform.Translate(new Vector3(_input.InputVector.x, 0, _input.InputVector.y) * playerAbilities.newSpeed);
+        //    //, Space.World
+        //}
 
-    //public void disableAttacks()
-    //{
-    //    playerAbilities.inAttack = false;
-    //}
+        //public void rotateCharacter()
+        //{
+        //    Ray cameraRay = _camera.ScreenPointToRay(_input.Mouseposition);
+        //    Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+        //    float rayLength;
 
-}
+        //    if (groundPlane.Raycast(cameraRay, out rayLength))
+        //    {
+        //        Vector3 pointToLook = cameraRay.GetPoint(rayLength);
+        //        Debug.DrawLine(cameraRay.origin, pointToLook, Color.blue);
+        //        _player.transform.LookAt(new Vector3(pointToLook.x, _player.transform.position.y, pointToLook.z));
+        //    }
+        //}
+
+        //public void inventoryToggle(bool inventory)
+        //{
+        //    //true = enter
+        //    //false = close
+        //    if (inventory)
+        //    {
+        //        _gameManager.changeMenuState("openBook inventory");
+        //        inventoryTimer = inventoryToggleTime;
+        //    } else {
+        //        _gameManager.changeMenuState("closeBook");
+        //        inventoryTimer = inventoryToggleTime;
+        //    }
+
+        //}
+
+        //public void playerAttack()
+        //{
+        //    if (Input.GetMouseButtonDown(0)) playerAbilities.startAttack();
+        //}
+
+        //public void playerDashMovement()
+        //{
+        //    var speed = playerAbilities.newSpeed * 1.5f;
+        //    _player.transform.Translate(new Vector3(_input.InputVector.x, 0, _input.InputVector.y) * speed);
+        //}
+
+
+        //public void enableAttacks()
+        //{
+        //    playerAbilities.inAttack = true;
+        //}
+
+        //public void disableAttacks()
+        //{
+        //    playerAbilities.inAttack = false;
+        //}
+
+    }

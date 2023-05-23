@@ -56,7 +56,7 @@ public class PlayerWalkState : PlayerBaseState
         }
 
         //player is moving diagonal forward + left
-        if (InputVector.y > 0 && InputVector.x < 0)
+        if (InputVector.y > 0 && InputVector.x < -0.5f)
         {
             _currentContext.animator.PlayAnimation("RunForward");
             _currentContext.player.transform.rotation = _currentContext.playerEmpty.transform.rotation;
@@ -65,7 +65,7 @@ public class PlayerWalkState : PlayerBaseState
         }
 
         //player is moving diagonal forward + right
-        if (InputVector.y > 0 && InputVector.x > 0)
+        if (InputVector.y > 0 && InputVector.x > 0.5f)
         {
             _currentContext.animator.PlayAnimation("RunForward");
             _currentContext.player.transform.rotation = _currentContext.playerEmpty.transform.rotation;
@@ -97,7 +97,7 @@ public class PlayerWalkState : PlayerBaseState
         }
 
         //Only running back + left
-        if (InputVector.y < 0 && InputVector.x < 0)
+        if (InputVector.y < 0 && InputVector.x < -0.5f)
         {
             _currentContext.animator.PlayAnimation("RunBack");
             _currentContext.player.transform.rotation = _currentContext.playerEmpty.transform.rotation;
@@ -106,7 +106,7 @@ public class PlayerWalkState : PlayerBaseState
         }
 
         //Only running back + right
-        if (InputVector.y < 0 && InputVector.x > 0)
+        if (InputVector.y < 0 && InputVector.x > 0.5f)
         {
             _currentContext.animator.PlayAnimation("RunBack");
             _currentContext.player.transform.rotation = _currentContext.playerEmpty.transform.rotation;

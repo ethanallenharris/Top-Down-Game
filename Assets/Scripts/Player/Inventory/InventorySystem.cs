@@ -13,10 +13,10 @@ public class InventorySystem : MonoBehaviour
     {
         inventory = new List<GameObject>();
         //_itemDictionary = new Dictionary<Item, InventoryItem>();
-        foreach (Transform child in transform)
-        {
-            inventory.Add(child.gameObject);       
-        }
+        //foreach (Transform child in transform)
+        //{
+        //    inventory.Add(child.gameObject);       
+        //}
     }
 
 

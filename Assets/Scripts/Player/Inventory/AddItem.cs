@@ -9,16 +9,21 @@ public class AddItem : MonoBehaviour
 
     private int counter;
 
-    private InventorySystem inventorySystem;
+    private PlayerInventory inventorySystem;
 
     public void OnHandlePickupItem()
     {
         Debug.Log("Add item");
         counter++;
-        inventorySystem = FindObjectOfType<InventorySystem>();
+        inventorySystem = FindObjectOfType<PlayerInventory>();
        
         int randomNumber = Random.Range(0, items.Count);
         inventorySystem.Add(items[randomNumber]);
+    }
+
+    public void AddRandomItem()
+    {
+
     }
 
 }

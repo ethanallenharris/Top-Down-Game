@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Wooden Short Bow
   m_EditorClassIdentifier: 
   ID: 3
-  name: Wooden Short Bow
-  itemType: Weapon
+  buffs: []
+  description: 
   icon: {fileID: 0}
   isDefaultItem: 0
   stackSize: 0
+  itemType: 0

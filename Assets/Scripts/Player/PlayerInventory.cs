@@ -1,34 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerInventory : MonoBehaviour
 {
     public List<ItemObject> Inventory; 
     public List<GameObject> inventorySlots;
     public Transform InventoryPanel;
-    public Transform itemsParent;
     Inventory inventory;
     InventorySlot[] slots;
+
+    public List<ItemObject> RandomItemList;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Coming live from the inventory");
         int count = 0;
         //Load save data into Inventory
         foreach (ItemObject item in Inventory)
         {
-            inventorySlots[count].GetComponent<InventorySlot>().newItem(item);
+            //inventorySlots[count].GetComponent<InventorySlot>().newItem(item);
             count++;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public bool ItemInInventory(ItemObject pItem)
@@ -57,6 +54,10 @@ public class PlayerInventory : MonoBehaviour
         return 999;
     }
 
+    public void TESTBUTTON(string message)
+    {
+        Debug.Log(message);
+    }
 
 
     public void Add(ItemObject pItem)
@@ -73,10 +74,29 @@ public class PlayerInventory : MonoBehaviour
         {
             Debug.Log("inventory full");
         }
+    }
 
 
+
+    public void AddRandom()
+    {
+        Debug.Log("Add item random");
+        int slotNumber = GetFreeSlot();
+        Debug.Log(slotNumber);
+        if (slotNumber < 999)
+        {
+            int randomNumber = Random.Range(0, RandomItemList.Count);
+            inventorySlots[slotNumber].GetComponent<InventorySlot>().newItem(RandomItemList[randomNumber]);
+            Debug.Log("added " + RandomItemList[randomNumber].name + " to inventory");
+        }
+        else
+        {
+            Debug.Log("inventory full");
+        }
 
     }
+
+
 
     public void Remove(InventorySlot pSlot)
     {
@@ -100,24 +120,6 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    public GameManager gameManager;
-
-
-    #region Tabs
-    public void openInventory()
-    {
-        Debug.Log("Inventory pressed");
-        //gameManager.changeMenuState("openBook inventory");
-    }
-
-    public void openSettings()
-    {
-        Debug.Log("settings pressed");
-        //gameManager.changeMenuState("openBook settings");
-    }
-    #endregion
-
-
 
     #region Singleton
 
@@ -134,51 +136,4 @@ public class PlayerInventory : MonoBehaviour
     public OnItemChanged onItemChangedCallback;
 
     public int space = 10;  // Amount of item spaces
-
-    // Our current list of items in the inventory
-    public List<Item> items = new List<Item>();
-
-
-
-    public void OnEnable()
-    {
-
-    }
-
-
-
-    // Add a new item if enough room
-    public void Add(Item item)
-    {
-
-        if (items.Count >= space)
-        {
-            Debug.Log("Not enough room.");
-            return;
-        }
-
-        items.Add(item);
-
-        if (onItemChangedCallback != null)
-            onItemChangedCallback.Invoke();
-
-    }
-
-    // Remove an item
-    public void Remove(Item item)
-    {
-        items.Remove(item);
-
-        if (onItemChangedCallback != null)
-            onItemChangedCallback.Invoke();
-    }
-
-    public void Select(int slot)
-    {
-        if (items[slot].Equals(null))
-        {
-            Debug.Log("item slot: " + slot + " empty");
-        }
-
-    }
 }
