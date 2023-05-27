@@ -13,6 +13,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     public Button select;
     public SlotType slotType;
     public bool isEquipment;
+    public bool isSpell;
     public ItemObject item { get; private set; }
     public int stackSize { get; private set; }
 
@@ -30,7 +31,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         ChestPiece,
         Leggings,
         Boots,
-        Weapon
+        Weapon,
+        Spell,
+        Trinket
     }
 
     public void AddToStack()
@@ -62,11 +65,13 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         if (isEquipment)
         {
-            //playerStateMachine.applyEquipmentBuffs();
-            //playerStateMachine.EquipWeapon();
-        }
+            playerStateMachine.UpdateEquipment();
+        } 
+        else if (isSpell)
+        {
+            playerStateMachine.UpdateSpells();
+        } 
 
-  
     }
 
     public void SelectItem()
@@ -135,10 +140,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 }
                 if (targetSlot.isEquipment)
                 {
-                    Debug.Log("Update stats");
-                    //playerStateMachine.applyEquipmentBuffs();
-                    //playerStateMachine.EquipWeapon();
+                    playerStateMachine.UpdateEquipment();
                     //update stats, passives and weapon
+                }
+                else if (targetSlot.isSpell)
+                {
+                    playerStateMachine.UpdateSpells();
                 }
             }
         }

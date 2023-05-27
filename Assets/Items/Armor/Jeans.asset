@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: Jeans
   m_EditorClassIdentifier: 
   ID: 4
+  itemObject:
+  - {fileID: 7975289541834481598, guid: 66a18849aa6d17a48a9184d7d08d9c15, type: 3}
+  - {fileID: 2920178488392346741, guid: a86909aa6fba2cf49b58f633a5dc3cdf, type: 3}
+  - {fileID: 7379023553936241530, guid: a18b5c12e52ea684e9bac0711abc367e, type: 3}
+  - {fileID: 2906846826253002701, guid: 6cad4e45976e26243a22ed4b9ea14cc4, type: 3}
+  - {fileID: 5632309125016431329, guid: 78765179117a06f41a4ae845e06050d1, type: 3}
   buffs:
   - attribute: 3
     value: 0.3

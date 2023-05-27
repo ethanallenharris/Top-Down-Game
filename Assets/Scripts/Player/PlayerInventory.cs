@@ -18,7 +18,6 @@ public class PlayerInventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Coming live from the inventory");
         int count = 0;
         //Load save data into Inventory
         foreach (ItemObject item in Inventory)
@@ -80,9 +79,7 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddRandom()
     {
-        Debug.Log("Add item random");
         int slotNumber = GetFreeSlot();
-        Debug.Log(slotNumber);
         if (slotNumber < 999)
         {
             int randomNumber = Random.Range(0, RandomItemList.Count);

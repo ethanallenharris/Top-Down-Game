@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Wooden Short Bow
   m_EditorClassIdentifier: 
   ID: 3
+  itemObject:
+  - {fileID: 5420615051208326485, guid: 4a437899a946b514b97b1b24a6c9a378, type: 3}
   buffs: []
   description: 
   icon: {fileID: 0}

@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory/Item")]
 public class ItemObject : ScriptableObject
 {
     public string ID;
-
+    public List<GameObject> itemObject;
 
     public ItemBuff[] buffs;
 
@@ -14,6 +15,7 @@ public class ItemObject : ScriptableObject
     public bool isDefaultItem = false;
     public int stackSize;
     public itemType itemType;
+    
 
     public Item CreateItem()
     {
@@ -60,7 +62,9 @@ public enum itemType
     ChestPiece,
     Leggings,
     Boots,
-    Weapon
+    Weapon,
+    Spell,
+    Trinket
 }
 
 public enum Attributes

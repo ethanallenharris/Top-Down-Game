@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory/Weapon")]
 public class WeaponObject : ItemObject
 {
-    public GameObject WeaponPrefab;
     public weaponType WeaponType;
     public weaponAttackPattern AttackPattern;
     public GameObject WeaponHitbox;

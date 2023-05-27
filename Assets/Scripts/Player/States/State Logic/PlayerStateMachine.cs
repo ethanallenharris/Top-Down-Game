@@ -26,6 +26,14 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerParticles playerParticles;
     public GameObject rightHand;
     public GameObject leftHand;
+    public GameObject headNode;
+    public GameObject waistNode;
+    public GameObject upperLeftLegNode;
+    public GameObject upperRightLegNode;
+    public GameObject lowerLeftLegNode;
+    public GameObject lowerRightLegNode;
+
+
 
 
     //Player Scripts
@@ -65,6 +73,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     //UI objects
     public GameObject inventoryObj;
+    public List<GameObject> equipmentSlots;
 
 
     #endregion
@@ -394,91 +403,183 @@ public class PlayerStateMachine : MonoBehaviour
         }
     }
 
+    public void ClearObject(GameObject obj)
+    {
+        // Destroy any existing children
+        foreach (Transform child in obj.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
 
 
 
-
-        #endregion
-
-
-
-        //LEFT OFF ON PLAYER IDLE STATE
+    public void UpdateEquipment()
+    {
+        Debug.Log("Update stats");
+        //wipe stats
 
 
 
-
-        //public void executeSpell(int spellSlot)
-        //{
-        //    if (Input.GetMouseButtonDown(0)) playerAbilities.castSpell();
-        //}
-
-        //public bool detectDash()
-        //{
-        //    if (Input.GetButton("spacebar") && playerDashCooldown <= 0 && (0 <= playerAbilities.currentStamina - 1))
-        //    {
-        //        playerAbilities.currentStamina -= 1;
-        //        playerDashCooldown = playerDashTime;
-        //        return true;
-        //    }
-        //    return false;
-        //}
+        // Destroy any existing children
+        foreach (GameObject slot in equipmentSlots)
+        {
+            InventorySlot inventorySlot = slot.GetComponent<InventorySlot>();
 
 
-        //public void executeMovement()
-        //{
-        //    _player.transform.Translate(new Vector3(_input.InputVector.x, 0, _input.InputVector.y) * playerAbilities.newSpeed);
-        //    //, Space.World
-        //}
+            if (inventorySlot.slotType.ToString() == "Weapon")
+            {
+                if (!inventorySlot.item)
+                {
+                    ClearHand("right");
+                    // GO EQUIP MEELEE
+                }
+            }
 
-        //public void rotateCharacter()
-        //{
-        //    Ray cameraRay = _camera.ScreenPointToRay(_input.Mouseposition);
-        //    Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        //    float rayLength;
+            if (inventorySlot.slotType.ToString() == "Leggings")
+            {
+                if (!inventorySlot.item)
+                {
+                    ClearObject(waistNode);
+                    ClearObject(upperLeftLegNode);
+                    ClearObject(lowerLeftLegNode);
+                    ClearObject(upperRightLegNode);
+                    ClearObject(lowerRightLegNode);
 
-        //    if (groundPlane.Raycast(cameraRay, out rayLength))
-        //    {
-        //        Vector3 pointToLook = cameraRay.GetPoint(rayLength);
-        //        Debug.DrawLine(cameraRay.origin, pointToLook, Color.blue);
-        //        _player.transform.LookAt(new Vector3(pointToLook.x, _player.transform.position.y, pointToLook.z));
-        //    }
-        //}
-
-        //public void inventoryToggle(bool inventory)
-        //{
-        //    //true = enter
-        //    //false = close
-        //    if (inventory)
-        //    {
-        //        _gameManager.changeMenuState("openBook inventory");
-        //        inventoryTimer = inventoryToggleTime;
-        //    } else {
-        //        _gameManager.changeMenuState("closeBook");
-        //        inventoryTimer = inventoryToggleTime;
-        //    }
-
-        //}
-
-        //public void playerAttack()
-        //{
-        //    if (Input.GetMouseButtonDown(0)) playerAbilities.startAttack();
-        //}
-
-        //public void playerDashMovement()
-        //{
-        //    var speed = playerAbilities.newSpeed * 1.5f;
-        //    _player.transform.Translate(new Vector3(_input.InputVector.x, 0, _input.InputVector.y) * speed);
-        //}
+                    GameObject shorts = Resources.Load<GameObject>("Prefabs/PlayerShorts");
+                    Instantiate(shorts, waistNode.transform);
+                }
+            }
 
 
-        //public void enableAttacks()
-        //{
-        //    playerAbilities.inAttack = true;
-        //}
+            //If slot has an item
+            if (inventorySlot.item)
+            {
+                Debug.Log(inventorySlot.item.name);
+                switch (inventorySlot.slotType)
+                {
+                    case InventorySlot.SlotType.Weapon:
+                        Instantiate(inventorySlot.item.itemObject[0], rightHand.transform);
+                        break;
+                    case InventorySlot.SlotType.Helmet:
+                        ClearObject(headNode);
+                        Instantiate(inventorySlot.item.itemObject[0], headNode.transform);
+                        break;
+                    case InventorySlot.SlotType.ChestPiece:
+                      
+                        break;
+                    case InventorySlot.SlotType.Leggings:
+                        Instantiate(inventorySlot.item.itemObject[0], waistNode.transform);
+                        Instantiate(inventorySlot.item.itemObject[1], upperLeftLegNode.transform);
+                        Instantiate(inventorySlot.item.itemObject[2], lowerLeftLegNode.transform);
+                        Instantiate(inventorySlot.item.itemObject[3], upperRightLegNode.transform);
+                        Instantiate(inventorySlot.item.itemObject[4], lowerRightLegNode.transform);
 
-        //public void disableAttacks()
-        //{
-        //    playerAbilities.inAttack = false;
-        //}
+                        break;
+                    case InventorySlot.SlotType.Boots:
+                        
+                        break;
+                    case InventorySlot.SlotType.Trinket:
+                        
+                        break;
+                }
+            }
+            
+        }
+
 
     }
+
+    public void UpdateSpells()
+    {
+        Debug.Log("Update spells");
+    }
+
+
+
+
+
+    #endregion
+
+
+
+    //LEFT OFF ON PLAYER IDLE STATE
+
+
+
+
+    //public void executeSpell(int spellSlot)
+    //{
+    //    if (Input.GetMouseButtonDown(0)) playerAbilities.castSpell();
+    //}
+
+    //public bool detectDash()
+    //{
+    //    if (Input.GetButton("spacebar") && playerDashCooldown <= 0 && (0 <= playerAbilities.currentStamina - 1))
+    //    {
+    //        playerAbilities.currentStamina -= 1;
+    //        playerDashCooldown = playerDashTime;
+    //        return true;
+    //    }
+    //    return false;
+    //}
+
+
+    //public void executeMovement()
+    //{
+    //    _player.transform.Translate(new Vector3(_input.InputVector.x, 0, _input.InputVector.y) * playerAbilities.newSpeed);
+    //    //, Space.World
+    //}
+
+    //public void rotateCharacter()
+    //{
+    //    Ray cameraRay = _camera.ScreenPointToRay(_input.Mouseposition);
+    //    Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+    //    float rayLength;
+
+    //    if (groundPlane.Raycast(cameraRay, out rayLength))
+    //    {
+    //        Vector3 pointToLook = cameraRay.GetPoint(rayLength);
+    //        Debug.DrawLine(cameraRay.origin, pointToLook, Color.blue);
+    //        _player.transform.LookAt(new Vector3(pointToLook.x, _player.transform.position.y, pointToLook.z));
+    //    }
+    //}
+
+    //public void inventoryToggle(bool inventory)
+    //{
+    //    //true = enter
+    //    //false = close
+    //    if (inventory)
+    //    {
+    //        _gameManager.changeMenuState("openBook inventory");
+    //        inventoryTimer = inventoryToggleTime;
+    //    } else {
+    //        _gameManager.changeMenuState("closeBook");
+    //        inventoryTimer = inventoryToggleTime;
+    //    }
+
+    //}
+
+    //public void playerAttack()
+    //{
+    //    if (Input.GetMouseButtonDown(0)) playerAbilities.startAttack();
+    //}
+
+    //public void playerDashMovement()
+    //{
+    //    var speed = playerAbilities.newSpeed * 1.5f;
+    //    _player.transform.Translate(new Vector3(_input.InputVector.x, 0, _input.InputVector.y) * speed);
+    //}
+
+
+    //public void enableAttacks()
+    //{
+    //    playerAbilities.inAttack = true;
+    //}
+
+    //public void disableAttacks()
+    //{
+    //    playerAbilities.inAttack = false;
+    //}
+
+}

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory/Spell")]
-public class Spell : ScriptableObject
+public class Spell : ItemObject
 {
     [SerializeField] string name;
 

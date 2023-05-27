@@ -13,6 +13,11 @@ public class PlayerRunState : PlayerBaseState
     {
         while (_currentContext.currentSpeedMultiplier < speedMultiplier)
         {
+            if (!Input.GetKey("left shift"))
+            {
+                _currentContext.currentSpeedMultiplier = 1;
+                yield break;
+            }
             _currentContext.currentSpeedMultiplier += Time.deltaTime;
             yield return null;
         }
@@ -23,7 +28,6 @@ public class PlayerRunState : PlayerBaseState
     public override void EnterState() 
     {
         CoroutineRunner.Instance.StartCoroutine(IncreaseSpeedCoroutine());
-        Debug.Log("Entering run");
         _currentContext.animator.GetAnimator().SetFloat("RunMult", 0);
         _currentContext.animator.PlayAnimation("RunForward");
     }
@@ -80,7 +84,6 @@ public class PlayerRunState : PlayerBaseState
         //if player is no longer moving forward or holding shift
         if (_currentContext.input.InputVector.y < 1 | !Input.GetKey("left shift"))
         {
-            Debug.Log("Stopped running");
             _currentContext.currentSpeedMultiplier = 1;
             _currentContext.PlayerStats.SetStaminaDrain(0);
             _currentContext.animator.GetAnimator().SetFloat("RunMult", 0);

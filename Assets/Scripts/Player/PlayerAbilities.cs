@@ -211,9 +211,9 @@ public class PlayerAbilities : MonoBehaviour
 
         WeaponObject newWeapon = (WeaponObject) weaponSlot.item;
 
-        currentWeaponInRightHand = Instantiate(newWeapon.WeaponPrefab, rightHand.transform);
+        //currentWeaponInRightHand = Instantiate(newWeapon.WeaponPrefab, rightHand.transform);
 
-        currentWeaponInRightHand.transform.position = rightHand.transform.position;
+        //currentWeaponInRightHand.transform.position = rightHand.transform.position;
 
         //add weapon buffs to this eventually
 

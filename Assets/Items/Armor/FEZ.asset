@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: FEZ
   m_EditorClassIdentifier: 
   ID: 5
+  itemObject:
+  - {fileID: 5236222413752614322, guid: 2776f869c15cea64d867b886661216d8, type: 3}
   buffs:
   - attribute: 2
     value: 3

@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: One Handed Axe
   m_EditorClassIdentifier: 
   ID: 
+  itemObject:
+  - {fileID: 5420615051208326485, guid: 4a437899a946b514b97b1b24a6c9a378, type: 3}
   buffs: []
   description: A sharp hand axe
   icon: {fileID: 21300000, guid: 714046e8799e400489d7d061b3c40355, type: 3}
   isDefaultItem: 1
   stackSize: 0
   itemType: 6
-  WeaponPrefab: {fileID: 919132149155446097, guid: 439a532aec13bc04e85ea9ffb8759869, type: 3}
   WeaponType: 0
   AttackPattern: 0
   WeaponHitbox: {fileID: 7315002960527658597, guid: 3d8bf37db8b3a28438672396fa9a11e7, type: 3}
