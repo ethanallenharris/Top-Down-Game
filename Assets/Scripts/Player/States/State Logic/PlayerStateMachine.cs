@@ -32,6 +32,14 @@ public class PlayerStateMachine : MonoBehaviour
     public GameObject upperRightLegNode;
     public GameObject lowerLeftLegNode;
     public GameObject lowerRightLegNode;
+    public GameObject lowerTorsoNode;
+    public GameObject middleTorsoNode;
+    public GameObject upperTorsoNode;
+    public GameObject leftShoulderNode;
+    public GameObject rightShoulderNode;
+
+
+
 
 
 
